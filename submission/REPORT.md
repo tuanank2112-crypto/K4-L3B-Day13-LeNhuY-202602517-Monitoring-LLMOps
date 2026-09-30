@@ -10,7 +10,7 @@
 - **MSSV:** 202602517
 - **Lớp:** K4-L3B
 - **Repository URL:** https://github.com/tuanank2112-crypto/K4-L3B-Day13-LeNhuY-202602517-Monitoring-LLMOps
-- **Commit SHA cuối:** COMMIT_SHA_PLACEHOLDER
+- **Commit SHA cuối:** `0f3c6fd` — commit chứa toàn bộ source và evidence; commit sau đó chỉ ghi SHA này vào report (xem `git log`)
 - **Challenge ID:** `day13-k4-l3b-monitoring-llmops-v1` (cohort K4, seed 1312)
 - **Tên project Langfuse cá nhân:** `day13-k4-l3b-202602517` (project id `cmuoc4b000091ad0cu72s4cij`; lúc xuất evidence project còn tên `hhhh` nên dòng `project:` trong các file evidence ghi `hhhh`)
 
