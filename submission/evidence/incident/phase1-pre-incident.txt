@@ -1,0 +1,15 @@
+=== 2026-09-30T16:39:34Z PHASE 1 pre-incident baseline (challenge queries, no incident)
+$ python scripts/load_test.py --challenge --concurrency 5
+Challenge: day13-k4-l3b-monitoring-llmops-v1 | Cohort: K4
+[200] req-fa84afa2 | monitoring | 1337.0ms
+[200] req-8e30404e | monitoring | 1498.1ms
+[200] req-cf9d2a32 | monitoring | 1499.2ms
+[200] req-b49df1a4 | monitoring | 1501.3ms
+[200] req-61a85436 | monitoring | 1500.9ms
+Challenge: day13-k4-l3b-monitoring-llmops-v1 | Cohort: K4
+[200] req-035a81c0 | monitoring | 641.3ms
+[200] req-59ffcded | monitoring | 639.0ms
+[200] req-acf3c02f | monitoring | 797.6ms
+[200] req-b175f26c | monitoring | 795.8ms
+[200] req-796961a3 | monitoring | 797.3ms
+=== 2026-09-30T16:39:38Z end phase 1

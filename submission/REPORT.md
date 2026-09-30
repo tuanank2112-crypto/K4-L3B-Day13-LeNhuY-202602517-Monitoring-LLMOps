@@ -11,7 +11,7 @@
 - **Lớp:** K4-L3B
 - **Repository URL:** https://github.com/tuanank2112-crypto/K4-L3B-Day13-LeNhuY-202602517-Monitoring-LLMOps
 - **Commit SHA cuối:** ⏳ CẦN ĐIỀN (`git log -1 --oneline` sau commit cuối)
-- **Challenge ID:** ⏳ CẦN ĐIỀN (CP3)
+- **Challenge ID:** `day13-k4-l3b-monitoring-llmops-v1` (cohort K4, seed 1312)
 - **Tên project Langfuse cá nhân:** `day13-k4-l3b-202602517`
 
 ## 2. Evidence index
@@ -29,20 +29,21 @@
 | Prompt versions | `evidence/09-prompt-versions.png` | ⏳ CẦN ĐIỀN |
 | Prompt rollback | `evidence/10-prompt-rollback.png` | ⏳ CẦN ĐIỀN |
 | Dashboard runtime | [evidence/11-dashboard-overview.png](evidence/11-dashboard-overview.png) | 6 panel từ log thật |
-| Incident metric | `evidence/12-incident-metric.png` | ⏳ CẦN ĐIỀN (CP3) |
-| Incident log | `evidence/13-incident-log.png` | ⏳ CẦN ĐIỀN (CP3) |
-| Incident trace | `evidence/14-incident-trace.png` | ⏳ CẦN ĐIỀN (CP3) |
+| Incident metric | [evidence/12-incident-metric.png](evidence/12-incident-metric.png), [12-incident-metric.txt](evidence/12-incident-metric.txt) | P95 159 → 2660 ms |
+| Incident log | [evidence/13-incident-log.txt](evidence/13-incident-log.txt) | `req-ca1e00eb`, latency 2660 ms |
+| Incident trace | `evidence/14-incident-trace.png` | ⏳ CẦN ĐIỀN (cần Langfuse key) |
 
 Evidence phụ:
 
 - Baseline trước khi sửa code: [evidence/baseline/](evidence/baseline/) (`01-pytest-baseline.txt`, `02-log-validator-baseline.txt`, `03-dashboard-validator-baseline.txt`, `load-test.txt`, `logs-baseline.jsonl`).
-- Practice scenarios (`rag_slow`, `tool_fail`, `cost_spike`) và bảng tổng hợp: [evidence/practice/](evidence/practice/), đặc biệt [practice-summary.txt](evidence/practice/practice-summary.txt).
+- Practice scenarios (`rag_slow`, `tool_fail`, `cost_spike`) và bảng tổng hợp: [evidence/practice/](evidence/practice/), đặc biệt [practice-summary.txt](evidence/practice/practice-summary.txt); log practice lưu nguyên tại [logs-practice.jsonl](evidence/practice/logs-practice.jsonl).
+- Challenge CP3 theo từng pha: [incident/phase1-pre-incident.txt](evidence/incident/phase1-pre-incident.txt), [phase2-challenge-run.txt](evidence/incident/phase2-challenge-run.txt), [phase3-fix-verify.txt](evidence/incident/phase3-fix-verify.txt), [phase3-summary.txt](evidence/incident/phase3-summary.txt). `config/challenge.json` không được commit.
 
 ## 3. Kết quả kỹ thuật
 
 | Nội dung | Baseline | Kết quả cuối | Nhận xét |
 |---|---|---|---|
-| `validate_logs.py` | 30/100 (20 record thiếu correlation ID, 20 record thiếu enrichment, 0 correlation ID) | 100/100 (131 record, 68 correlation ID, 0 PII leak) | Baseline đã pass PII vì `main.py` dùng `summarize_text` cho preview; processor mới che thêm mọi field khác |
+| `validate_logs.py` | 30/100 (20 record thiếu correlation ID, 20 record thiếu enrichment, 0 correlation ID) | 100/100 trên log challenge (43 record, 22 correlation ID, 0 PII leak) và 100/100 trên log practice (131 record, 68 correlation ID) | Baseline đã pass PII vì `main.py` dùng `summarize_text` cho preview; processor mới che thêm mọi field khác |
 | `validate_dashboard.py` | HỢP LỆ 6/6 | HỢP LỆ 6/6 | Contract không đổi; thêm dashboard runtime từ log |
 | `pytest` | 22 passed | 37 passed | Thêm test PII (CCCD, thẻ, hộ chiếu, nested field), middleware, child observations, alert/SLO, dashboard builder |
 | Số traces hợp lệ | 0 (`tracing_enabled: false`, chưa có key) | ⏳ CẦN ĐIỀN | Cần key của project cá nhân trong `.env` |
@@ -92,16 +93,22 @@ Evidence phụ:
 
 ## 7. Điều tra challenge
 
-- **Challenge ID:** ⏳ CẦN ĐIỀN
-- **Khoảng thời gian điều tra:** ⏳ CẦN ĐIỀN
-- **Triệu chứng từ metrics:** ⏳ CẦN ĐIỀN
-- **Log line và correlation ID liên quan:** ⏳ CẦN ĐIỀN
-- **Trace ID và span gây ảnh hưởng:** ⏳ CẦN ĐIỀN
-- **Root cause:** ⏳ CẦN ĐIỀN
-- **Fix action:** ⏳ CẦN ĐIỀN
-- **Preventive measure:** ⏳ CẦN ĐIỀN
+- **Challenge ID:** `day13-k4-l3b-monitoring-llmops-v1` (cohort K4, seed 1312, incident được inject đọc từ `config/challenge.json`, `latency_threshold_ms` 2000, feature bị ảnh hưởng `monitoring`, 5 query).
+- **Khoảng thời gian điều tra:** 2026-09-30 16:39:43 → 16:39:59 UTC (từ `inject_incident.py` tới khi load test challenge kết thúc). Pha trước sự cố: 16:39:34 → 16:39:43 UTC (cùng 5 query challenge, chạy 2 lượt). Pha sau khi fix: từ 16:40:40 UTC.
+- **Triệu chứng từ metrics:** [12-incident-metric.txt](evidence/12-incident-metric.txt), [12-incident-metric.png](evidence/12-incident-metric.png)
 
-> Quy trình đã tập với practice scenario (không phải challenge chính thức): với `rag_slow` (16:25:49→16:26:18 UTC), metric P95 tăng từ 158 ms lên 2657 ms trong khi TTFT P95 giữ ~54 ms → thời gian mất ở ngoài bước LLM. Log `response_sent` của `correlation_id=req-e518b3bd` có `latency_ms=2652`, `ttft_ms=50` ([04-structured-log.txt](evidence/04-structured-log.txt)). Khi bật Langfuse, trace cùng `correlation_id` sẽ cho thấy span `retrieval` chiếm phần lớn thời gian. Với `tool_fail`, log `request_failed` của `req-c7526e93` có `error_type=RuntimeError`, `tool_name=retrieval`, `tool_success=false`, `payload.detail="Vector store timeout"`.
+  | Pha | Request | Error % | Retrieval OK % | P50/P95/P99 latency | TTFT P95 | Avg cost | Avg tokens_out |
+  |---|---:|---:|---:|---|---:|---:|---:|
+  | Trước sự cố | 10 | 0.0 | 100.0 | 153/159/159 ms | 52 ms | 0.002310 | 147 |
+  | Sự cố | 5 | 0.0 | 100.0 | 2656/2660/2660 ms | 56 ms | 0.002358 | 150.2 |
+  | Sau fix | 5 | 0.0 | 100.0 | 152/155/155 ms | 50 ms | 0.002307 | 146.8 |
+
+  Latency tăng ~2.5 giây và vượt `latency_threshold_ms` 2000 của challenge (alert `HighLatencyP95` > 2000 ms sẽ kích hoạt; panel latency của contract vẫn OK vì ngưỡng 3000 ms). Error, retrieval success, cost, token và quality không đổi → không phải lỗi, không phải cost/prompt regression. TTFT không đổi → LLM vẫn bắt đầu sinh token nhanh như bình thường. Phía client, latency tăng từ 637–1501 ms lên 10.6–13.3 s ([phase2-challenge-run.txt](evidence/incident/phase2-challenge-run.txt)) vì các request xếp hàng sau nhau trên event loop (xem mục 8).
+- **Log line và correlation ID liên quan:** [13-incident-log.txt](evidence/13-incident-log.txt). Lọc `event == "response_sent"` và `latency_ms > 2000` trong khoảng sự cố cho ra đúng 5 request challenge (2652–2660 ms). Request chậm nhất `correlation_id=req-ca1e00eb` (session `k4-l3b-challenge-s01`, feature `monitoring`) có `latency_ms=2660`, `ttft_ms=50`, `tokens_out=126`, `tool_name=retrieval`, `tool_success=true`. Cùng query trước sự cố chỉ mất 152–159 ms. Log control plane `incident_enabled` với `payload.name=rag_slow` lúc 16:39:44.571 UTC trùng thời điểm latency bắt đầu tăng.
+- **Trace ID và span gây ảnh hưởng:** ⏳ CẦN ĐIỀN. Lần chạy này API chưa có Langfuse key (`tracing_enabled: false`) nên chưa có trace. Cần chạy lại challenge sau khi cấu hình key để lấy trace có metadata `correlation_id` và so sánh duration của span `retrieval` với `llm-generation`.
+- **Root cause (suy ra từ metric + log, chờ xác nhận bằng trace):** bước retrieval bị chậm (`rag_slow`: vector store/RAG chậm thêm ~2.5 giây mỗi lần gọi). Căn cứ: latency tăng một lượng cố định ~2.5 giây cho mọi request, trong khi TTFT, token, cost và quality không đổi (loại trừ LLM/prompt) và không có lỗi (loại trừ `tool_fail`). Thời điểm bắt đầu trùng log `incident_enabled rag_slow`.
+- **Fix action:** tắt cấu hình gây chậm retrieval (`python scripts/inject_incident.py --disable`, 16:40:40 UTC), sau đó chạy lại đúng 5 query challenge để kiểm chứng: P95 về 155 ms, TTFT 50 ms, 0% lỗi ([phase3-fix-verify.txt](evidence/incident/phase3-fix-verify.txt), [phase3-summary.txt](evidence/incident/phase3-summary.txt)).
+- **Preventive measure:** (1) alert `HighLatencyP95` (> 2000 ms trong 5 phút) kèm runbook alert 1 trong [`docs/alerts.md`](../docs/alerts.md): bước 1 so sánh latency với TTFT, bước 3 mở span `retrieval`. (2) Đặt timeout và latency budget cho retrieval (ví dụ 500 ms), khi quá hạn thì trả fallback thay vì chờ. (3) Ghi `retrieval_ms` vào `response_sent` để lọc được bằng log mà không cần mở trace. (4) Chạy `agent.run` trong threadpool (`def` endpoint hoặc `run_in_threadpool`) để một request chậm không làm các request khác chờ theo.
 
 ## 8. Giải thích và tự đánh giá
 
@@ -111,13 +118,13 @@ Evidence phụ:
 - **Cách hiểu luồng Metrics → Logs → Traces:** metrics trả lời "có vấn đề gì và từ lúc nào" trên toàn bộ traffic (ví dụ P95 tăng trong khi TTFT không đổi); logs cho phép lọc trong đúng khoảng đó để chọn một request cụ thể bằng `correlation_id` và thấy các field của nó; trace của chính request đó chia thời gian/lỗi ra từng span (`retrieval` hay `llm-generation`) để khoanh vùng root cause. Chỉ kết luận khi cả ba lớp cùng chỉ về một nguyên nhân.
 - **Vai trò của prompt version, token/cost, SLO hoặc rollback trong vận hành LLM:** prompt thay đổi hành vi như một lần deploy nhưng không đi qua code, nên mỗi trace phải ghi `prompt_name/label/version` để biết request dùng version nào; token/cost trên generation cho biết một thay đổi (prompt dài hơn, output dài hơn) tốn thêm bao nhiêu — practice `cost_spike` làm cost/request tăng ~4.4 lần mà traffic không đổi; SLO và error budget quyết định khi nào phải dừng thay đổi để ưu tiên ổn định; rollback bằng cách chuyển label `production` là cách khôi phục nhanh nhất vì không cần deploy.
 - **Điều quan trọng nhất đã học:** redaction phải nằm trong pipeline logging trước bước render/ghi file và phủ mọi field, không dựa vào việc từng chỗ gọi log nhớ tự scrub; và alert nên được đặt theo số đo baseline thực tế — ngưỡng SLO 3000 ms không bắt được `rag_slow` (2657 ms).
-- **Hạn chế hoặc phần chưa hoàn thành, nếu có:** chưa có trace/prompt evidence trên Langfuse và phần challenge CP3 (xem các mục ⏳). Quality score là heuristic trên câu trả lời cố định của FakeLLM nên gần như không đổi (0.8–0.9). Request lỗi 500 trả `correlation_id` trong header `x-request-id` nhưng không trong body. Alert mới được định nghĩa trong YAML, chưa nối với hệ thống gửi Slack thật.
+- **Hạn chế hoặc phần chưa hoàn thành, nếu có:** chưa có trace/prompt evidence trên Langfuse (evidence 06–10, 14), nên root cause của challenge mới được chứng minh bằng metric + log. Quality score là heuristic trên câu trả lời cố định của FakeLLM nên gần như không đổi (0.8–0.9). Request lỗi 500 trả `correlation_id` trong header `x-request-id` nhưng không trong body. Alert mới được định nghĩa trong YAML, chưa nối với hệ thống gửi Slack thật.
 
 ## 9. Checklist trước khi nộp
 
 - [ ] Kết quả và evidence thuộc commit SHA cuối.
 - [ ] Tất cả ảnh/output mở được bằng đường dẫn tương đối.
-- [ ] Incident evidence nối đúng metric → log → trace.
+- [ ] Incident evidence nối đúng metric → log → trace. (metric → log đã có; còn trace)
 - [ ] Trace/prompt evidence thuộc project Langfuse cá nhân và ảnh không lộ key/secret.
 - [x] Repository chạy lại được theo README.
 - [x] Không có secret, API key, PII thô hoặc evidence của người khác/lớp khác.
