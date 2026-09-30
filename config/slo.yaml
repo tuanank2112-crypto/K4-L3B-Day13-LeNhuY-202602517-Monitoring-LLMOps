@@ -3,10 +3,26 @@ primary_slo:
   name: fast_successful_requests
   window: 28d
   sli:
+    # Request "tốt" = trả lời thành công VÀ latency <= 3000ms. Request lỗi (request_failed)
+    # không có response_sent nên tự động bị tính là "xấu".
     good_event: 'event == "response_sent" and latency_ms <= 3000'
     total_event: 'event == "request_received"'
   target_percent: 99.5
   error_budget_percent: 0.5
+  latency_threshold_ms: 3000
+  rationale: >
+    Giữ ngưỡng 3000ms trùng threshold P95 của panel latency trong config/dashboard.yaml để
+    SLO line trên dashboard và SLO là một. Baseline đo thật trên máy lab (31 request bình thường,
+    xem submission/evidence/practice/practice-summary.txt): P50/P95/P99 = 152/158/162ms, 0% lỗi,
+    nên 3000ms còn dư ~19 lần so với P95 baseline; 99.5% cho phép vài request chậm/lỗi lẻ tẻ
+    nhưng một sự cố kéo dài vài phút sẽ đốt hết budget. Vì rag_slow chỉ đẩy P95 lên 2657ms
+    (vẫn < 3000ms), alert latency được đặt sớm hơn ở 2000ms (xem config/alert_rules.yaml).
+  error_budget:
+    formula: 'allowed_bad = total_requests * (100 - target_percent) / 100'
+    example: 'Nếu có 10,000 request trong 28 ngày thì tối đa 50 request được phép lỗi hoặc chậm hơn 3000ms.'
+    burn_rate_note: >
+      Burn rate = (tỷ lệ request xấu hiện tại) / 0.5%. Đợt practice tool_fail cho 10/10 request
+      lỗi (100% xấu) tức burn rate 200x: 50 request lỗi liên tiếp là hết budget cả 28 ngày.
   note: Học viên phải giải thích hoặc điều chỉnh ngưỡng bằng baseline của mình. Ví dụ nếu có 10,000 request trong cửa sổ 28 ngày, error budget 0.5% nghĩa là tối đa 50 request được phép không đạt SLO.
 guardrails:
   error_rate_pct_max: 2

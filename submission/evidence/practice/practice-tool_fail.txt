@@ -1,0 +1,14 @@
+=== 2026-09-30T16:26:18Z enable tool_fail
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': True, 'cost_spike': False}}
+[500] None | qa | 11.3ms
+[500] None | qa | 5.0ms
+[500] None | summary | 6.1ms
+[500] None | qa | 4.2ms
+[500] None | qa | 4.9ms
+[500] None | summary | 4.2ms
+[500] None | qa | 4.3ms
+[500] None | qa | 4.6ms
+[500] None | qa | 6.2ms
+[500] None | qa | 4.9ms
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}
+=== 2026-09-30T16:26:20Z disabled tool_fail

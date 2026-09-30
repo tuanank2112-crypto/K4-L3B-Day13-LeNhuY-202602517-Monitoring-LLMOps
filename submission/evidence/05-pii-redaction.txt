@@ -1,0 +1,21 @@
+# Input gửi tới API (PII giả, dữ liệu test):
+curl -X POST http://127.0.0.1:8000/chat -H 'x-request-id: req-1a2b3c4d' -d '{"user_id":"u-pii","session_id":"s-pii","feature":"qa","message":"PII test: email student@vinuni.edu.vn, phone 090 123 4567, CCCD 001099012345, card 4111 1111 1111 1111, passport C1234567"}'
+
+# Log ghi ra data/logs.jsonl cho cùng correlation_id (đã scrub trước khi render/ghi file):
+{"service": "api", "payload": {"message_preview": "PII test: email [REDACTED_EMAIL], phone [REDACTED_PHONE_VN], CCCD [REDACTED_CCCD..."}, "event": "request_received", "session_id": "s-pii", "feature": "qa", "correlation_id": "req-1a2b3c4d", "model": "claude-sonnet-4-5", "user_id_hash": "4c5fd778540c", "env": "dev", "level": "info", "ts": "2026-09-30T16:25:35.139400Z"}
+{"service": "api", "latency_ms": 152, "ttft_ms": 50, "tokens_in": 50, "tokens_out": 136, "cost_usd": 0.00219, "quality_score": 0.8, "tool_name": "retrieval", "tool_success": true, "payload": {"answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."}, "event": "response_sent", "session_id": "s-pii", "feature": "qa", "correlation_id": "req-1a2b3c4d", "model": "claude-sonnet-4-5", "user_id_hash": "4c5fd778540c", "env": "dev", "level": "info", "ts": "2026-09-30T16:25:36.006044Z"}
+
+# Các sample query của repo chứa email/phone/card sau khi ghi log:
+{"service": "api", "payload": {"message_preview": "What is your refund policy? My email is [REDACTED_EMAIL]"}, "event": "request_received", "session_id": "s01", "feature": "qa", "correlation_id": "req-4c83e3bc", "model": "claude-sonnet-4-5", "user_id_hash": "2055254ee30a", "env": "dev", "level": "info", "ts": "2026-09-30T16:25:36.749237Z"}
+{"service": "api", "payload": {"message_preview": "Here is my phone [REDACTED_PHONE_VN], what should be logged?"}, "event": "request_received", "session_id": "s05", "feature": "qa", "correlation_id": "req-60c2283e", "model": "claude-sonnet-4-5", "user_id_hash": "64f6ec689229", "env": "dev", "level": "info", "ts": "2026-09-30T16:25:37.389595Z"}
+{"service": "api", "payload": {"message_preview": "What is the policy for PII and credit card [REDACTED_CREDIT_CARD]?"}, "event": "request_received", "session_id": "s09", "feature": "qa", "correlation_id": "req-f06901c1", "model": "claude-sonnet-4-5", "user_id_hash": "4d14d5d4f719", "env": "dev", "level": "info", "ts": "2026-09-30T16:25:38.040185Z"}
+
+$ grep -cE "student@vinuni|0987654321|4111 1111|001099012345|C1234567" data/logs.jsonl
+0
+
+# Request thứ hai (preview ngắn để thấy đủ CCCD/thẻ/hộ chiếu):
+curl ... -H 'x-request-id: req-5e6f7a8b' -d '{"message":"CCCD 001099012345 card 4111-1111-1111-1111 passport C1234567", ...}'
+{"service": "api", "payload": {"message_preview": "CCCD [REDACTED_CCCD] card [REDACTED_CREDIT_CARD] passport [REDACTED_PASSPORT_VN]"}, "event": "request_received", "session_id": "s-pii", "feature": "qa", "correlation_id": "req-5e6f7a8b", "model": "claude-sonnet-4-5", "user_id_hash": "4c5fd778540c", "env": "dev", "level": "info", "ts": "2026-09-30T16:28:59.202343Z"}
+
+$ grep -cE "student@vinuni|0987654321|4111.1111|001099012345|C1234567" data/logs.jsonl
+0

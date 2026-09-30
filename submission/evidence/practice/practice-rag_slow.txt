@@ -1,0 +1,14 @@
+=== 2026-09-30T16:25:49Z enable rag_slow
+200 {'ok': True, 'incidents': {'rag_slow': True, 'tool_fail': False, 'cost_spike': False}}
+[200] req-e518b3bd | qa | 2661.1ms
+[200] req-096f7069 | qa | 2657.3ms
+[200] req-5d81d566 | summary | 2656.7ms
+[200] req-48c44ada | qa | 2663.8ms
+[200] req-a7028d6c | qa | 2663.7ms
+[200] req-dc6eccbf | summary | 2658.1ms
+[200] req-64e53f25 | qa | 2662.3ms
+[200] req-9c5caf02 | qa | 2657.9ms
+[200] req-646930ee | qa | 2663.3ms
+[200] req-1879eac0 | qa | 2658.4ms
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}
+=== 2026-09-30T16:26:18Z disabled rag_slow

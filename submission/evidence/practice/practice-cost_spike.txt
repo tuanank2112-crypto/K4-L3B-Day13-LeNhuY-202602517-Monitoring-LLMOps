@@ -1,0 +1,14 @@
+=== 2026-09-30T16:26:20Z enable cost_spike
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': True}}
+[200] req-1b0cc827 | qa | 163.0ms
+[200] req-c84c9da4 | qa | 158.3ms
+[200] req-bceda80e | summary | 157.2ms
+[200] req-32cb47cd | qa | 157.7ms
+[200] req-d8161fd1 | qa | 158.5ms
+[200] req-f3edfbda | summary | 162.8ms
+[200] req-89ee2afa | qa | 165.7ms
+[200] req-281efeaf | qa | 158.1ms
+[200] req-3db88f1e | qa | 169.2ms
+[200] req-d41ab464 | qa | 168.6ms
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}
+=== 2026-09-30T16:26:24Z disabled cost_spike

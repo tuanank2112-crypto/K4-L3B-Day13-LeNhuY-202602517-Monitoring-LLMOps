@@ -1,0 +1,23 @@
+$ python scripts/load_test.py --concurrency 5   # client-side latency (LOG_PATH tạm, không ghi vào data/logs.jsonl)
+[200] req-7faed3b5 | qa | 323.8ms
+[200] req-5823ed8d | qa | 646.3ms
+[200] req-246a782e | summary | 645.7ms
+[200] req-2ec50e81 | qa | 645.3ms
+[200] req-7629db4d | qa | 804.3ms
+[200] req-1b849fba | summary | 636.1ms
+[200] req-110898f7 | qa | 790.4ms
+[200] req-61204457 | qa | 788.7ms
+[200] req-5d383d2f | qa | 790.5ms
+[200] req-4de916ba | qa | 788.3ms
+
+# latency_ms phía server của cùng các request:
+req-7faed3b5 latency_ms=151
+req-5823ed8d latency_ms=152
+req-246a782e latency_ms=152
+req-2ec50e81 latency_ms=152
+req-7629db4d latency_ms=152
+req-1b849fba latency_ms=152
+req-110898f7 latency_ms=153
+req-5d383d2f latency_ms=152
+req-61204457 latency_ms=155
+req-4de916ba latency_ms=152

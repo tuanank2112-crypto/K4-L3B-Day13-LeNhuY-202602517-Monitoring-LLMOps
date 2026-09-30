@@ -1,0 +1,6 @@
+$ python scripts/log_summary.py --window rag_slow=2026-09-30T16:25:49,2026-09-30T16:26:18 --window tool_fail=2026-09-30T16:26:18,2026-09-30T16:26:20 --window cost_spike=2026-09-30T16:26:20,2026-09-30T16:26:24
+group | requests | failed | error% | retrieval_ok% | p50/p95/p99 ms | ttft_p95 ms | avg cost usd | avg tokens_out | quality
+normal | 31 | 0 | 0.0 | 100.0 | 152/158/162 | 55 | 0.002013 | 127.322581 | 0.877419
+rag_slow | 10 | 0 | 0.0 | 100.0 | 2653/2657/2657 | 54 | 0.002225 | 141.6 | 0.88
+tool_fail | 10 | 10 | 100.0 | 0.0 | 0/0/0 | 0 | - | - | -
+cost_spike | 10 | 0 | 0.0 | 100.0 | 153/162/162 | 53 | 0.008891 | 586 | 0.88

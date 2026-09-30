@@ -1,25 +1,34 @@
+# Ba alert symptom-based: đo triệu chứng người dùng cảm nhận (chậm, lỗi, chi phí/độ dài câu trả lời),
+# không alert trực tiếp trên tên implementation nội bộ. Ngưỡng dựa trên baseline đo thật trong
+# submission/evidence/practice/practice-summary.txt (P95 158ms, 0% lỗi, avg cost 0.002013 USD/request).
 alerts:
-  - name: TODO_alert_1
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: HighLatencyP95
+    severity: warning
+    condition: 'p95(response_sent.latency_ms) > 2000'
+    duration: 5m
     type: symptom-based
+    sli: latency P95 của response_sent.latency_ms (SLO fast_successful_requests <= 3000ms)
     channel: slack
-    owner: TODO
+    slack_channel: '#k4-l3b-alerts'
+    owner: student-202602517
     runbook: docs/alerts.md#alert-1
-  - name: TODO_alert_2
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: HighErrorRate
+    severity: critical
+    condition: 'count(request_failed) / count(request_received) * 100 > 2'
+    duration: 5m
     type: symptom-based
+    sli: error rate % và retrieval success % (tool_success) trên panel errors
     channel: slack
-    owner: TODO
+    slack_channel: '#k4-l3b-alerts'
+    owner: student-202602517
     runbook: docs/alerts.md#alert-2
-  - name: TODO_alert_3
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: CostPerRequestSpike
+    severity: warning
+    condition: 'avg(response_sent.cost_usd) > 0.004'
+    duration: 10m
     type: symptom-based
+    sli: cost USD/request và tokens_out trên panel cost/tokens (guardrail daily_cost_usd_max 2.5)
     channel: slack
-    owner: TODO
+    slack_channel: '#k4-l3b-alerts'
+    owner: student-202602517
     runbook: docs/alerts.md#alert-3
