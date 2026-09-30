@@ -1,0 +1,24 @@
+=== 2026-09-30T16:44:58Z workload, LANGFUSE_PROMPT_LABEL=production
+$ python scripts/load_test.py
+[200] req-fbda67c9 | qa | 2365.4ms
+[200] req-9473804a | qa | 161.5ms
+[200] req-7a655fb1 | summary | 164.9ms
+[200] req-327bb8e4 | qa | 157.2ms
+[200] req-9c2a63d7 | qa | 157.4ms
+[200] req-6e0a2619 | summary | 170.3ms
+[200] req-80b154c0 | qa | 156.6ms
+[200] req-9fddc23c | qa | 158.9ms
+[200] req-c7ff87fc | qa | 157.3ms
+[200] req-0546c0dd | qa | 157.9ms
+$ python scripts/load_test.py --concurrency 5
+[200] req-f36b57bf | qa | 479.3ms
+[200] req-c51b396c | qa | 797.6ms
+[200] req-c40222d6 | qa | 797.6ms
+[200] req-fe290488 | summary | 804.9ms
+[200] req-598dc603 | qa | 806.3ms
+[200] req-a8a99d50 | summary | 653.7ms
+[200] req-4db76887 | qa | 336.0ms
+[200] req-ebf15ff4 | qa | 862.6ms
+[200] req-43bebc75 | qa | 856.3ms
+[200] req-a0799d70 | qa | 858.8ms
+=== 2026-09-30T16:45:05Z end

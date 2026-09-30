@@ -1,0 +1,37 @@
+# Cùng input "Explain why metrics traces and logs work together" chạy với từng label; promote rồi rollback label production.
+=== 2026-09-30T16:47:01Z STEP A: cùng input, LANGFUSE_PROMPT_LABEL=baseline
+response: {'correlation_id': 'req-0000b001', 'latency_ms': 1524, 'tokens_in': 32, 'tokens_out': 144, 'cost_usd': 0.002256}
+=== 2026-09-30T16:47:15Z STEP B: cùng input, LANGFUSE_PROMPT_LABEL=candidate
+response: {'correlation_id': 'req-0000c002', 'latency_ms': 1318, 'tokens_in': 57, 'tokens_out': 125, 'cost_usd': 0.002046}
+=== 2026-09-30T16:47:29Z STEP C: promote production -> v2
+$ python scripts/langfuse_prompt_setup.py promote
+Trước:
+[2026-09-30T16:47:34Z] prompt 'day13-chat': 2 version(s)
+  v1: labels=['baseline', 'production'] | Feature={{feature}}
+  v2: labels=['candidate', 'latest'] | You are a concise support assistant. Answer in at most 3 short bullet 
+Đã chuyển label production -> v2. Sau:
+[2026-09-30T16:47:35Z] prompt 'day13-chat': 2 version(s)
+  v1: labels=['baseline'] | Feature={{feature}}
+  v2: labels=['candidate', 'latest', 'production'] | You are a concise support assistant. Answer in at most 3 short bullet 
+response: {'correlation_id': 'req-0000d003', 'latency_ms': 1359, 'tokens_in': 57, 'tokens_out': 120, 'cost_usd': 0.001971}
+=== 2026-09-30T16:47:49Z STEP D: rollback production -> v1
+$ python scripts/langfuse_prompt_setup.py rollback
+Trước:
+[2026-09-30T16:47:53Z] prompt 'day13-chat': 2 version(s)
+  v1: labels=['baseline'] | Feature={{feature}}
+  v2: labels=['candidate', 'latest', 'production'] | You are a concise support assistant. Answer in at most 3 short bullet 
+Đã chuyển label production -> v1. Sau:
+[2026-09-30T16:47:54Z] prompt 'day13-chat': 2 version(s)
+  v1: labels=['baseline', 'production'] | Feature={{feature}}
+  v2: labels=['candidate', 'latest'] | You are a concise support assistant. Answer in at most 3 short bullet 
+response: {'correlation_id': 'req-0000e004', 'latency_ms': 1448, 'tokens_in': 32, 'tokens_out': 116, 'cost_usd': 0.001836}
+=== 2026-09-30T16:47:58Z done
+
+# Trace tương ứng trên Langfuse (prompt_label/prompt_version lấy từ trace metadata):
+$ python scripts/langfuse_traces.py list --since 2026-09-30T16:47:00Z --until 2026-09-30T16:48:05Z
+project: hhhh | traces since 2026-09-30T16:47:00Z: 4
+timestamp | trace id | name | correlation_id | prompt label/version | latency s
+2026-09-30T16:47:04.569Z | 73c317538fe491ea09491fbb6bb60f4a | day13-agent-request | req-0000b001 | baseline/1 | 1.525
+2026-09-30T16:47:18.543Z | 4aafeab3bc04a48ddfe6a3bf03908e06 | day13-agent-request | req-0000c002 | candidate/2 | 1.319
+2026-09-30T16:47:38.225Z | 863f2252343694cb62ebbaf01ce1a25c | day13-agent-request | req-0000d003 | production/2 | 1.36
+2026-09-30T16:47:57.391Z | 6cd2c1aabb6d6fa57b4094f26b22e739 | day13-agent-request | req-0000e004 | production/1 | 1.449

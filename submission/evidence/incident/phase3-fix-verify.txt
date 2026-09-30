@@ -1,11 +1,11 @@
-=== 2026-09-30T16:40:40Z PHASE 3 fix + verify
+=== 2026-09-30T16:49:53Z PHASE 3 fix + verify
 $ python scripts/inject_incident.py --disable
 200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}
 $ python scripts/load_test.py --challenge --concurrency 5
 Challenge: day13-k4-l3b-monitoring-llmops-v1 | Cohort: K4
-[200] req-ac26ac08 | monitoring | 638.7ms
-[200] req-0f35d0fa | monitoring | 637.1ms
-[200] req-9cf2073c | monitoring | 793.5ms
-[200] req-6dc23357 | monitoring | 793.5ms
-[200] req-2acbb445 | monitoring | 792.6ms
-=== 2026-09-30T16:40:42Z end phase 3
+[200] req-d734c010 | monitoring | 673.0ms
+[200] req-fb690739 | monitoring | 673.8ms
+[200] req-47150e47 | monitoring | 841.6ms
+[200] req-5f57d90c | monitoring | 843.6ms
+[200] req-1f02f3fe | monitoring | 841.4ms
+=== 2026-09-30T16:49:56Z end phase 3

@@ -1,12 +1,4 @@
-$ python scripts/log_summary.py --window run1_incident_no_trace=2026-09-30T16:39:43,2026-09-30T16:39:59 --window pre_incident=2026-09-30T16:48:48,2026-09-30T16:48:56 --window challenge_incident=2026-09-30T16:48:56,2026-09-30T16:49:12 --window after_fix=2026-09-30T16:49:53,2026-09-30T23:59:59
-group | requests | failed | error% | retrieval_ok% | p50/p95/p99 ms | ttft_p95 ms | avg cost usd | avg tokens_out | quality
-normal | 39 | 0 | 0.0 | 100.0 | 153/1524/1683 | 55 | 0.002099 | 132.846154 | 0.85641
-run1_incident_no_trace | 5 | 0 | 0.0 | 100.0 | 2656/2660/2660 | 56 | 0.002358 | 150.2 | 0.84
-pre_incident | 10 | 0 | 0.0 | 100.0 | 152/164/164 | 51 | 0.002113 | 133.9 | 0.84
-challenge_incident | 5 | 0 | 0.0 | 100.0 | 2655/2659/2659 | 50 | 0.002214 | 140.6 | 0.84
-after_fix | 5 | 0 | 0.0 | 100.0 | 158/163/163 | 55 | 0.002226 | 141.4 | 0.84
-
-# TRACE sau fix: req-d734c010
+# Waterfall của một trace trên code cuối (root → retrieval, prompt-resolve, llm-generation)
 $ python scripts/langfuse_traces.py show --correlation-id req-d734c010 --since 2026-09-30T16:49:53Z
 project: hhhh
 trace id: 183e8e2d6fd4722c66d358364ee487ae  name: day13-agent-request  timestamp: 2026-09-30T16:49:55.014Z
@@ -26,3 +18,10 @@ trace metadata: {'feature': 'monitoring', 'model': 'claude-sonnet-4-5', 'correla
        metadata={'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'ttft_ms': 50}
        input={'prompt_preview': 'Feature=monitoring Docs=No domain document matched. Use general fallback answer. Question=Summarize the observability workflow for an AI API.'}
        output=Starter answer. You should improve this output logic and add better quality checks. Use retrieved context and keep responses concise.
+
+# Waterfall của trace đầu tiên (trước khi thêm span prompt-resolve) — cho thấy khoảng trống 1.5s chưa có span:
+$ python scripts/langfuse_traces.py show --correlation-id req-fbda67c9 --since 2026-09-30T16:44:00Z
+trace id: 52ebefaa11631f3932f57fafc717170d  name: day13-agent-request  timestamp: 2026-09-30T16:44:59.700Z
+└─ [AGENT] lab-agent-run  1684ms  level=DEFAULT
+  └─ [RETRIEVER] retrieval  0ms  level=DEFAULT
+  └─ [GENERATION] llm-generation  152ms  level=DEFAULT

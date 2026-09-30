@@ -1,18 +1,18 @@
-# LOG — lọc data/logs.jsonl: event == "response_sent" và latency_ms > 2000 (latency_threshold_ms của challenge) trong 16:39:43–16:39:59 UTC
-2026-09-30T16:39:58.548068Z req-ca1e00eb feature=monitoring latency_ms=2660 ttft_ms=50 tokens_out=126 tool_success=True
-2026-09-30T16:39:50.560002Z req-4302ad24 feature=monitoring latency_ms=2659 ttft_ms=56 tokens_out=153 tool_success=True
-2026-09-30T16:39:53.222030Z req-c2b9efee feature=monitoring latency_ms=2656 ttft_ms=50 tokens_out=144 tool_success=True
-2026-09-30T16:39:55.879333Z req-7726ab44 feature=monitoring latency_ms=2653 ttft_ms=50 tokens_out=160 tool_success=True
-2026-09-30T16:39:47.897283Z req-d3daddf2 feature=monitoring latency_ms=2652 ttft_ms=50 tokens_out=168 tool_success=True
+# LOG — lọc data/logs.jsonl: event == "response_sent" và latency_ms > 2000 (latency_threshold_ms của challenge) trong 2026-09-30T16:48:56–2026-09-30T16:49:12 UTC
+2026-09-30T16:49:03.240746Z req-86adea6f feature=monitoring latency_ms=2659 ttft_ms=50 tokens_out=83 tool_success=True
+2026-09-30T16:49:11.225220Z req-de48fedb feature=monitoring latency_ms=2657 ttft_ms=50 tokens_out=170 tool_success=True
+2026-09-30T16:49:05.905657Z req-d3c5ea2f feature=monitoring latency_ms=2655 ttft_ms=50 tokens_out=155 tool_success=True
+2026-09-30T16:49:08.564598Z req-089d2cd3 feature=monitoring latency_ms=2655 ttft_ms=50 tokens_out=132 tool_success=True
+2026-09-30T16:49:00.576845Z req-46fef722 feature=monitoring latency_ms=2653 ttft_ms=50 tokens_out=163 tool_success=True
 
-# Request được chọn để điều tra: correlation_id=req-ca1e00eb — toàn bộ log line nguyên văn:
-{"service": "api", "payload": {"message_preview": "Explain why metrics traces and logs work together."}, "event": "request_received", "user_id_hash": "4a1a454d70a9", "feature": "monitoring", "correlation_id": "req-ca1e00eb", "session_id": "k4-l3b-challenge-s01", "model": "claude-sonnet-4-5", "env": "dev", "level": "info", "ts": "2026-09-30T16:39:55.884537Z"}
-{"service": "api", "latency_ms": 2660, "ttft_ms": 50, "tokens_in": 35, "tokens_out": 126, "cost_usd": 0.001995, "quality_score": 0.8, "tool_name": "retrieval", "tool_success": true, "payload": {"answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."}, "event": "response_sent", "user_id_hash": "4a1a454d70a9", "feature": "monitoring", "correlation_id": "req-ca1e00eb", "session_id": "k4-l3b-challenge-s01", "model": "claude-sonnet-4-5", "env": "dev", "level": "info", "ts": "2026-09-30T16:39:58.548068Z"}
+# Request được chọn để điều tra: correlation_id=req-86adea6f — log line nguyên văn:
+{"service": "api", "payload": {"message_preview": "Summarize the observability workflow for an AI API."}, "event": "request_received", "correlation_id": "req-86adea6f", "model": "claude-sonnet-4-5", "session_id": "k4-l3b-challenge-s03", "env": "dev", "feature": "monitoring", "user_id_hash": "189d0a182d4e", "level": "info", "ts": "2026-09-30T16:49:00.579217Z"}
+{"service": "api", "latency_ms": 2659, "ttft_ms": 50, "tokens_in": 35, "tokens_out": 83, "cost_usd": 0.00135, "quality_score": 0.8, "tool_name": "retrieval", "tool_success": true, "payload": {"answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."}, "event": "response_sent", "correlation_id": "req-86adea6f", "model": "claude-sonnet-4-5", "session_id": "k4-l3b-challenge-s03", "env": "dev", "feature": "monitoring", "user_id_hash": "189d0a182d4e", "level": "info", "ts": "2026-09-30T16:49:03.240746Z"}
 
-# Log control-plane trong cùng khoảng thời gian:
-{"service": "control", "payload": {"name": "rag_slow"}, "event": "incident_enabled", "correlation_id": "req-c32f04bb", "level": "warning", "ts": "2026-09-30T16:39:44.571006Z"}
+# Log control-plane trong khoảng sự cố:
+{"service": "control", "payload": {"name": "rag_slow"}, "event": "incident_enabled", "correlation_id": "req-f1d153de", "level": "warning", "ts": "2026-09-30T16:48:57.239424Z"}
 
-# So sánh: request cùng challenge queries trước khi bật incident (16:39:34–16:39:43 UTC):
-2026-09-30T16:39:36.425870Z req-fa84afa2 latency_ms=152 ttft_ms=50
-2026-09-30T16:39:36.600728Z req-8e30404e latency_ms=155 ttft_ms=50
-2026-09-30T16:39:36.773208Z req-cf9d2a32 latency_ms=159 ttft_ms=50
+# So sánh: cùng challenge queries trước khi bật incident:
+2026-09-30T16:48:49.274352Z req-05b28ace latency_ms=151 ttft_ms=50
+2026-09-30T16:48:49.429186Z req-1a355c05 latency_ms=152 ttft_ms=50
+2026-09-30T16:48:49.584234Z req-1f0c1a52 latency_ms=152 ttft_ms=50

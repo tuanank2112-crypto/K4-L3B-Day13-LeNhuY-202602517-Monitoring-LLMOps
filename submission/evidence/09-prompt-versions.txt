@@ -1,0 +1,11 @@
+$ python scripts/langfuse_prompt_setup.py create
+Đã tạo v1 với labels baseline, production
+Đã tạo v2 với label candidate
+[2026-09-30T16:44:43Z] prompt 'day13-chat': 2 version(s)
+  v1: labels=['baseline', 'production'] | Feature={{feature}}
+  v2: labels=['candidate', 'latest'] | You are a concise support assistant. Answer in at most 3 short bullet 
+
+$ python scripts/langfuse_prompt_setup.py status   # trạng thái cuối sau rollback
+[2026-09-30T16:48:37Z] prompt 'day13-chat': 2 version(s)
+  v1: labels=['baseline', 'production'] | Feature={{feature}}
+  v2: labels=['candidate', 'latest'] | You are a concise support assistant. Answer in at most 3 short bullet 

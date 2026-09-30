@@ -1,0 +1,41 @@
+# TRACE — request bị ảnh hưởng (cùng correlation_id với log line trong 13-incident-log.txt)
+$ python scripts/langfuse_traces.py show --correlation-id req-86adea6f --since 2026-09-30T16:48:00Z
+project: hhhh
+trace id: 4f43433887ff09f88e9f9d345f6bc02f  name: day13-agent-request  timestamp: 2026-09-30T16:49:00.580Z
+user_id: 189d0a182d4e  session_id: k4-l3b-challenge-s03  env: dev
+tags: ['claude-sonnet-4-5', 'lab', 'monitoring']  latency: 2.66s  total_cost: 0.00135
+trace metadata: {'feature': 'monitoring', 'model': 'claude-sonnet-4-5', 'correlation_id': 'req-86adea6f', 'doc_count': 1, 'query_preview': 'Summarize the observability workflow for an AI API.', 'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'prompt_fetch_error': ''}
+└─ [AGENT] lab-agent-run  2660ms  level=DEFAULT
+     metadata={'doc_count': 1, 'query_preview': 'Summarize the observability workflow for an AI API.', 'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'prompt_fetch_error': ''}
+  └─ [RETRIEVER] retrieval  2505ms  level=DEFAULT
+       metadata={'tool_success': True, 'retrieval_ms': 2500}
+       input={'query_preview': 'Summarize the observability workflow for an AI API.'}
+       output={'doc_count': 1, 'doc_previews': ['No domain document matched. Use general fallback answer.']}
+  └─ [SPAN] prompt-resolve  1ms  level=DEFAULT
+       metadata={'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'prompt_fetch_error': '', 'prompt_resolve_ms': 0}
+  └─ [GENERATION] llm-generation  152ms  level=DEFAULT
+       model=claude-sonnet-4-5 prompt=day13-chat v1 usage={'input': 35, 'output': 83, 'total': 118} cost={'input': 0.000105, 'output': 0.001245, 'total': 0.00135}
+       metadata={'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'ttft_ms': 50}
+       input={'prompt_preview': 'Feature=monitoring Docs=No domain document matched. Use general fallback answer. Question=Summarize the observability workflow for an AI API.'}
+       output=Starter answer. You should improve this output logic and add better quality checks. Use retrieved context and keep responses concise.
+
+# TRACE so sánh — cùng challenge queries trước khi bật incident
+$ python scripts/langfuse_traces.py show --correlation-id req-05b28ace --since 2026-09-30T16:48:00Z
+project: hhhh
+trace id: df6b1a35cfa5591b01927b44ff2469a8  name: day13-agent-request  timestamp: 2026-09-30T16:48:49.121Z
+user_id: 68e37dc7cb5e  session_id: k4-l3b-challenge-s05  env: dev
+tags: ['claude-sonnet-4-5', 'lab', 'monitoring']  latency: 0.153s  total_cost: 0.00192
+trace metadata: {'feature': 'monitoring', 'model': 'claude-sonnet-4-5', 'correlation_id': 'req-05b28ace', 'doc_count': 1, 'query_preview': 'Describe how to prove a slow span is the root cause.', 'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'prompt_fetch_error': ''}
+└─ [AGENT] lab-agent-run  153ms  level=DEFAULT
+     metadata={'doc_count': 1, 'query_preview': 'Describe how to prove a slow span is the root cause.', 'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'prompt_fetch_error': ''}
+  └─ [RETRIEVER] retrieval  0ms  level=DEFAULT
+       metadata={'tool_success': True, 'retrieval_ms': 0}
+       input={'query_preview': 'Describe how to prove a slow span is the root cause.'}
+       output={'doc_count': 1, 'doc_previews': ['No domain document matched. Use general fallback answer.']}
+  └─ [SPAN] prompt-resolve  1ms  level=DEFAULT
+       metadata={'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'prompt_fetch_error': '', 'prompt_resolve_ms': 0}
+  └─ [GENERATION] llm-generation  151ms  level=DEFAULT
+       model=claude-sonnet-4-5 prompt=day13-chat v1 usage={'input': 35, 'output': 121, 'total': 156} cost={'input': 0.000105, 'output': 0.001815, 'total': 0.00192}
+       metadata={'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'ttft_ms': 50}
+       input={'prompt_preview': 'Feature=monitoring Docs=No domain document matched. Use general fallback answer. Question=Describe how to prove a slow span is the root cause.'}
+       output=Starter answer. You should improve this output logic and add better quality checks. Use retrieved context and keep responses concise.

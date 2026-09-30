@@ -1,0 +1,22 @@
+# Request có PII trong input (sample query u01 chứa email) — trace chỉ có preview đã scrub
+$ python scripts/langfuse_traces.py show --correlation-id req-fbda67c9 --since 2026-09-30T16:44:00Z
+project: hhhh
+trace id: 52ebefaa11631f3932f57fafc717170d  name: day13-agent-request  timestamp: 2026-09-30T16:44:59.700Z
+user_id: 2055254ee30a  session_id: s01  env: dev
+tags: ['claude-sonnet-4-5', 'lab', 'qa']  latency: 1.684s  total_cost: 0.002298
+trace metadata: {'feature': 'qa', 'model': 'claude-sonnet-4-5', 'correlation_id': 'req-fbda67c9', 'doc_count': 1, 'query_preview': 'What is your refund policy? My email is [REDACTED_EMAIL]', 'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'prompt_fetch_error': ''}
+└─ [AGENT] lab-agent-run  1684ms  level=DEFAULT
+     metadata={'doc_count': 1, 'query_preview': 'What is your refund policy? My email is [REDACTED_EMAIL]', 'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'prompt_fetch_error': ''}
+  └─ [RETRIEVER] retrieval  0ms  level=DEFAULT
+       metadata={'tool_success': True, 'retrieval_ms': 0}
+       input={'query_preview': 'What is your refund policy? My email is [REDACTED_EMAIL]'}
+       output={'doc_count': 1, 'doc_previews': ['Refunds are available within 7 days with proof of purchase.']}
+  └─ [GENERATION] llm-generation  152ms  level=DEFAULT
+       model=claude-sonnet-4-5 prompt=day13-chat v1 usage={'input': 36, 'output': 146, 'total': 182} cost={'input': 0.000108, 'output': 0.00219, 'total': 0.002298}
+       metadata={'prompt_name': 'day13-chat', 'prompt_label': 'production', 'prompt_version': 1, 'prompt_source': 'langfuse', 'ttft_ms': 50}
+       input={'prompt_preview': 'Feature=qa Docs=Refunds are available within 7 days with proof of purchase. Question=What is your refund policy? My email is [REDACTED_EMAIL]'}
+       output=Starter answer. You should improve this output logic and add better quality checks. Use retrieved context and keep responses concise.
+
+# Log line cùng correlation_id trong data/logs.jsonl:
+{"service": "api", "payload": {"message_preview": "What is your refund policy? My email is [REDACTED_EMAIL]"}, "event": "request_received", "model": "claude-sonnet-4-5", "user_id_hash": "2055254ee30a", "feature": "qa", "session_id": "s01", "env": "dev", "correlation_id": "req-fbda67c9", "level": "info", "ts": "2026-09-30T16:44:59.045271Z"}
+{"service": "api", "latency_ms": 1683, "ttft_ms": 50, "tokens_in": 36, "tokens_out": 146, "cost_usd": 0.002298, "quality_score": 0.9, "tool_name": "retrieval", "tool_success": true, "payload": {"answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."}, "event": "response_sent", "model": "claude-sonnet-4-5", "user_id_hash": "2055254ee30a", "feature": "qa", "session_id": "s01", "env": "dev", "correlation_id": "req-fbda67c9", "level": "info", "ts": "2026-09-30T16:45:01.384609Z"}

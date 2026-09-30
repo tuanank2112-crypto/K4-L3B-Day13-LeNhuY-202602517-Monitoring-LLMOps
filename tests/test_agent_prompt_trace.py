@@ -110,7 +110,9 @@ def test_agent_creates_retrieval_and_generation_child_observations(
 ) -> None:
     result = run_agent()
 
-    retrieval, generation = recording_client.observations
+    retrieval, prompt_span, generation = recording_client.observations
+    assert prompt_span.start["name"] == "prompt-resolve"
+    assert prompt_span.merged()["metadata"]["prompt_version"] == "3"
     assert retrieval.start["name"] == "retrieval"
     assert retrieval.start["as_type"] == "retriever"
     assert retrieval.merged()["metadata"]["tool_success"] is True

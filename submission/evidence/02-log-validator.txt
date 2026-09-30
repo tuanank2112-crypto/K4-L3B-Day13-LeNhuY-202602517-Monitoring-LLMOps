@@ -1,9 +1,9 @@
-$ python scripts/validate_logs.py   # data/logs.jsonl của đợt challenge CP3
+$ python scripts/validate_logs.py   # data/logs.jsonl cuối (challenge run 1 + Langfuse workload + prompt steps + challenge run 2)
 --- Lab Verification Results ---
-Total log records analyzed: 43
+Total log records analyzed: 138
 Records with missing required fields: 0
 Records with missing enrichment (context): 0
-Unique correlation IDs found: 22
+Unique correlation IDs found: 68
 Potential PII leaks detected: 0
 
 --- Grading Scorecard (Estimates) ---
@@ -14,7 +14,7 @@ Potential PII leaks detected: 0
 
 Estimated Score: 100/100
 
-$ python scripts/validate_logs.py   # log đợt practice (chép evidence/practice/logs-practice.jsonl vào data/logs.jsonl của thư mục tạm rồi chạy validator, 3 dòng cuối)
+$ python scripts/validate_logs.py   # log đợt practice (chép evidence/practice/logs-practice.jsonl vào data/logs.jsonl của thư mục tạm, 3 dòng cuối)
 + [PASSED] PII scrubbing
 
 Estimated Score: 100/100

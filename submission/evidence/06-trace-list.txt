@@ -1,0 +1,47 @@
+$ python scripts/langfuse_traces.py list --since 2026-09-30T16:44:00Z
+project: hhhh | traces since 2026-09-30T16:44:00Z: 44
+timestamp | trace id | name | correlation_id | prompt label/version | latency s
+2026-09-30T16:44:59.700Z | 52ebefaa11631f3932f57fafc717170d | day13-agent-request | req-fbda67c9 | production/1 | 1.684
+2026-09-30T16:45:01.390Z | 8060e35a9d110b42452aa7d127cbf40e | day13-agent-request | req-9473804a | production/1 | 0.153
+2026-09-30T16:45:01.555Z | e348fffc56e3d8a4d556b2e40d7fd142 | day13-agent-request | req-7a655fb1 | production/1 | 0.157
+2026-09-30T16:45:01.716Z | ea8474aadcf1f0936cc7b766c9ce4718 | day13-agent-request | req-327bb8e4 | production/1 | 0.153
+2026-09-30T16:45:01.873Z | c11fdcfe91e9c872d2b0fa7a485ec2a9 | day13-agent-request | req-9c2a63d7 | production/1 | 0.152
+2026-09-30T16:45:02.032Z | 521c0b501d68ee3c8989559007c0a8f6 | day13-agent-request | req-6e0a2619 | production/1 | 0.153
+2026-09-30T16:45:02.201Z | e16bafecaa2960765550998df334840c | day13-agent-request | req-80b154c0 | production/1 | 0.152
+2026-09-30T16:45:02.357Z | b74233f3a7003d5ba24a9d12c6e64267 | day13-agent-request | req-9fddc23c | production/1 | 0.155
+2026-09-30T16:45:02.516Z | 54226a5a7d6af0a129dc0fab8fa80a4f | day13-agent-request | req-c7ff87fc | production/1 | 0.153
+2026-09-30T16:45:02.674Z | e0d8cc7e1720eda92b036ad6eff6d6e1 | day13-agent-request | req-0546c0dd | production/1 | 0.153
+2026-09-30T16:45:03.703Z | 310007936952ea7e80e2f6ef7b59d288 | day13-agent-request | req-f36b57bf | production/1 | 0.153
+2026-09-30T16:45:03.859Z | 6a2d7cee7086bf3dc84583bc23accb04 | day13-agent-request | req-c51b396c | production/1 | 0.152
+2026-09-30T16:45:04.014Z | 80bd9b65d205f7a37e396298a15b2e58 | day13-agent-request | req-c40222d6 | production/1 | 0.155
+2026-09-30T16:45:04.172Z | 7dc01f8e2475fc799f0d59c30572552e | day13-agent-request | req-598dc603 | production/1 | 0.153
+2026-09-30T16:45:04.332Z | 3e5445bbc3070c406bc24264a2017a42 | day13-agent-request | req-fe290488 | production/1 | 0.155
+2026-09-30T16:45:04.504Z | 5c9bc05f515781cff004f1d6104ab4bb | day13-agent-request | req-a8a99d50 | production/1 | 0.158
+2026-09-30T16:45:04.664Z | 69eb0a5fd3490ccecc389c2ab243d72d | day13-agent-request | req-4db76887 | production/1 | 0.159
+2026-09-30T16:45:04.828Z | a71db8a6fedd4b24b84f9c635bab871d | day13-agent-request | req-ebf15ff4 | production/1 | 0.174
+2026-09-30T16:45:05.036Z | d5c7dd88102aa82f9036e803d389a8cb | day13-agent-request | req-a0799d70 | production/1 | 0.158
+2026-09-30T16:45:05.198Z | acc676f628721f1c7cd8660c66db9ef0 | day13-agent-request | req-43bebc75 | production/1 | 0.154
+2026-09-30T16:47:04.569Z | 73c317538fe491ea09491fbb6bb60f4a | day13-agent-request | req-0000b001 | baseline/1 | 1.525
+2026-09-30T16:47:18.543Z | 4aafeab3bc04a48ddfe6a3bf03908e06 | day13-agent-request | req-0000c002 | candidate/2 | 1.319
+2026-09-30T16:47:38.225Z | 863f2252343694cb62ebbaf01ce1a25c | day13-agent-request | req-0000d003 | production/2 | 1.36
+2026-09-30T16:47:57.391Z | 6cd2c1aabb6d6fa57b4094f26b22e739 | day13-agent-request | req-0000e004 | production/1 | 1.449
+2026-09-30T16:48:49.121Z | df6b1a35cfa5591b01927b44ff2469a8 | day13-agent-request | req-05b28ace | production/1 | 0.153
+2026-09-30T16:48:49.276Z | cc685dea34912c2234e900352c418707 | day13-agent-request | req-1a355c05 | production/1 | 0.153
+2026-09-30T16:48:49.431Z | 158ef52f43db6de26955fdcea5b3211c | day13-agent-request | req-1f0c1a52 | production/1 | 0.153
+2026-09-30T16:48:49.587Z | cc3ffca4b79a294eea2c50b4ba4d5585 | day13-agent-request | req-47fd9f67 | production/1 | 0.153
+2026-09-30T16:48:49.745Z | 943b1b700c968b6ff63fc6f15a2137eb | day13-agent-request | req-d01164d7 | production/1 | 0.154
+2026-09-30T16:48:50.607Z | 9f2bd07627d1e8c4d0915970e73f9879 | day13-agent-request | req-bdaf783d | production/1 | 0.155
+2026-09-30T16:48:50.767Z | 428b9d5b209bc399b95c478e8c981b7e | day13-agent-request | req-ada20c31 | production/1 | 0.153
+2026-09-30T16:48:50.922Z | a3d2fa6d0088de82dccc447db07ac4f7 | day13-agent-request | req-98f92106 | production/1 | 0.165
+2026-09-30T16:48:51.102Z | 77445c9fffb8c4dc408449658589cd1a | day13-agent-request | req-9fe10ad1 | production/1 | 0.152
+2026-09-30T16:48:51.256Z | 8149cf67f93390e5b1633447bab9f30e | day13-agent-request | req-9823468f | production/1 | 0.153
+2026-09-30T16:48:57.923Z | 3676bd8be034bad0216dc76e1d126c77 | day13-agent-request | req-46fef722 | production/1 | 2.653
+2026-09-30T16:49:00.580Z | 4f43433887ff09f88e9f9d345f6bc02f | day13-agent-request | req-86adea6f | production/1 | 2.66
+2026-09-30T16:49:03.249Z | edf6619b7a01757acc7adf2b182a8673 | day13-agent-request | req-d3c5ea2f | production/1 | 2.656
+2026-09-30T16:49:05.908Z | 591b2c9cd5ae400bcc7ac78ef52961cd | day13-agent-request | req-089d2cd3 | production/1 | 2.656
+2026-09-30T16:49:08.567Z | 49685cb210fffe482c128d77055d38d9 | day13-agent-request | req-de48fedb | production/1 | 2.658
+2026-09-30T16:49:55.014Z | 183e8e2d6fd4722c66d358364ee487ae | day13-agent-request | req-d734c010 | production/1 | 0.16
+2026-09-30T16:49:55.189Z | c05f3e318320117e3d75010aa001c164 | day13-agent-request | req-fb690739 | production/1 | 0.153
+2026-09-30T16:49:55.352Z | 37d14fc08eed7c50827132184804f5f7 | day13-agent-request | req-47150e47 | production/1 | 0.164
+2026-09-30T16:49:55.518Z | 3f4e9d5187db076d1cd9ed1d029e83c5 | day13-agent-request | req-1f02f3fe | production/1 | 0.154
+2026-09-30T16:49:55.675Z | a6873f5023926b2a6ecaea9960da5e7f | day13-agent-request | req-5f57d90c | production/1 | 0.16

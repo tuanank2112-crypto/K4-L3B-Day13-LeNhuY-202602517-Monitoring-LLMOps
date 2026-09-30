@@ -53,13 +53,27 @@ class LabAgent:
         ):
             started = time.perf_counter()
             docs = self._retrieve(langfuse_client, message)
-            prompt = resolve_prompt(
-                langfuse_client,
-                feature=feature,
-                docs=docs,
-                message=message,
-                enabled=tracing_enabled(),
-            )
+            # Span riêng cho bước lấy prompt: lần fetch đầu (cache trống) có thể mất >1s
+            # và nếu không có span này thì thời gian đó "biến mất" giữa retrieval và generation.
+            with langfuse_client.start_as_current_observation(name="prompt-resolve", as_type="span") as prompt_span:
+                prompt_started = time.perf_counter()
+                prompt = resolve_prompt(
+                    langfuse_client,
+                    feature=feature,
+                    docs=docs,
+                    message=message,
+                    enabled=tracing_enabled(),
+                )
+                prompt_span.update(
+                    metadata={
+                        "prompt_name": prompt.name,
+                        "prompt_label": prompt.label,
+                        "prompt_version": prompt.version,
+                        "prompt_source": prompt.source,
+                        "prompt_fetch_error": prompt.fetch_error or "",
+                        "prompt_resolve_ms": int((time.perf_counter() - prompt_started) * 1000),
+                    }
+                )
             langfuse_client.update_current_span(
                 metadata={
                     "doc_count": len(docs),
